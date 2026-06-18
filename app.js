@@ -2,6 +2,12 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import logoutRoutes from "./src/routes/logout.js"
+import specialtyRoutes from "./src/routes/specialty.js"
+import appointmentRoutes from "./src/routes/appointment.js"
+import filesRoutes from "./src/routes/medicalFile.js"
+import equipmentRoutes from "./src/routes/equipment.js"
+import pacientRoutes from "./src/routes/pacitent.js"
+import loginRoutes from "./src/routes/login.js"
 
 const app = express()
 
@@ -14,12 +20,12 @@ app.use(cookieParser())
 
 app.use(express.json())
 
-//app.use("/api/login", loginRoutes)
+app.use("/api/login", loginRoutes)
 app.use("/api/logout", logoutRoutes)
-//app.use("/api/pacients", pacientRoutes)
-//app.use("/api/specialties", pacientRoutes)
-//app.use("/api/appointments", pacientRoutes)
-//app.use("/api/files", pacientRoutes)
-//app.use("/api/equipments", pacientRoutes)
+app.use("/api/pacients", pacientRoutes)
+app.use("/api/specialties", specialtyRoutes)
+app.use("/api/appointments", appointmentRoutes)
+app.use("/api/files", filesRoutes)
+app.use("/api/equipments", equipmentRoutes)
 
 export default app
