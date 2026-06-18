@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import logoutRoutes from "./routes/logout.js"
+import logoutRoutes from "./src/routes/logout.js"
 
 const app = express()
 
