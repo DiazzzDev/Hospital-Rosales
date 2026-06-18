@@ -22,7 +22,8 @@ controller.put = async (req, res) => {
             password, 
             phone, 
             address, 
-            phoneEmergencyContacts    
+            phoneEmergencyContacts,
+            profilePhoto    
         } = req.body
 
         const userFound = await model.findOne({email})
@@ -45,15 +46,17 @@ controller.put = async (req, res) => {
 
         if(req.file){
             await cloudinary.uploader.destroy(userFound.public_id)
-            updatedData.profilePhoto = [req.file.path]
-            updatedData.public_id = [req.file.filename]
+            updatedData.profilePhoto = req.file.path
+            updatedData.public_id = req.file.filename
         }
         
+        console.log("v4")
         await model.findByIdAndUpdate(
             req.params.id,
             updatedData,
             {new:true}
         )
+        console.log("v5")
 
         return res.status(200).json({message: updatedData})
 
