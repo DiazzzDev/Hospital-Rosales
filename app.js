@@ -9,6 +9,7 @@ import equipmentRoutes from "./src/routes/equipment.js"
 import pacientRoutes from "./src/routes/pacitent.js"
 import loginRoutes from "./src/routes/login.js"
 import registerRoute from "./src/routes/register.js"
+import forgotPasswordRoute from "./src/routes/recoveryPassword.js"
 
 const app = express()
 
@@ -29,5 +30,6 @@ app.use("/api/appointments", appointmentRoutes)
 app.use("/api/files", filesRoutes)
 app.use("/api/equipments", equipmentRoutes)
 app.use("/api/register", registerRoute)
+app.use("/api/forgot-password", forgotPasswordRoute)
 
 export default app
