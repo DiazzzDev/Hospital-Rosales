@@ -3,6 +3,6 @@ import express from "express"
 
 const router = express.Router()
 
-router.route("/")
+router.route("/").post(controller.login)
 
 export default router

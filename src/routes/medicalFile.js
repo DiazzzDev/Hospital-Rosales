@@ -3,6 +3,8 @@ import express from "express"
 
 const router = express.Router()
 
-router.route("/")
+router.route("/").get(controller.get).post(controller.new)
+
+router.route("/:id").put(controller.put).delete(controller.delete)
 
 export default router

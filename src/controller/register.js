@@ -34,4 +34,56 @@ controller.new = async (req, res) => {
     }
 }
 
+controller.verify = async (req, res) => {
+    try {
+        const {code} = req.body
+        const token = req.cookies.verificationToken
+
+        const decoded = jsonwebtoken.verify(token, config.JWT.secret)
+
+        const {
+            verificationCode: storedCode,
+            name,
+            lastName,
+            email,
+            password,
+            phone,
+            address,
+            phoneEmergencyContacts: [
+                {type: String}
+            ],
+            profilePhoto,
+            isVerified,
+            loginAttempts,
+            timeOut
+        } = decoded
+
+        if(code !== storedCode){
+            return res.status(400).json({message: "Código inválido"})
+        }
+
+        const newPatient = new model({
+            name,
+            lastName,
+            email,
+            password,
+            phone,
+            address,
+            phoneEmergencyContacts,
+            profilePhoto,
+            isVerified: true,
+            loginAttempts,
+            timeOut,
+        })
+
+        newPatient.save()
+        res.clearCookie("verificationToken")
+        return res.status(201).json({message: "Paciente creado"})
+
+    } catch (error) {
+        console.log("Error + " + error)
+        return res.status(500).json({message: "Error " + error})
+    }
+}
+
 export default controller;
