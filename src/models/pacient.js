@@ -11,6 +11,7 @@ const pacientSchema = new Schema({
         {type: String}
     ],
     profilePhoto: {type:String},
+    public_id: {type:String},
     isVerified: {type:Boolean},
     loginAttempts: {type: Number},
     timeOut: {type:Number},

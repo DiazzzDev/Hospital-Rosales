@@ -1,4 +1,5 @@
 import model from "../models/pacient.js"
+import {v2 as cloudinary} from "cloudinary"
 
 const controller = {}
 
@@ -6,6 +7,56 @@ controller.get = async (req, res) => {
     try {
         const data = await model.find()
         return res.status(200).json({message: data})
+    } catch (error) {
+        console.log("Error + " + error)
+        return res.status(500).json({message: "Error " + error})
+    }
+}
+
+controller.put = async (req, res) => {
+    try {
+        const {
+            name, 
+            lastname, 
+            email, 
+            password, 
+            phone, 
+            address, 
+            phoneEmergencyContacts    
+        } = req.body
+
+        const userFound = await model.findOne({email})
+
+        if(!userFound){
+            return res.status(404).json({message: "Data not found"})
+        }
+
+        const updatedData = {
+            name, 
+            lastname, 
+            email, 
+            password, 
+            phone, 
+            address, 
+            phoneEmergencyContacts,
+            profilePhoto: req.file.path,
+            public_id: req.file.filename
+        }
+
+        if(req.file){
+            await cloudinary.uploader.destroy(userFound.public_id)
+            updatedData.profilePhoto = [req.file.path]
+            updatedData.public_id = [req.file.filename]
+        }
+        
+        await model.findByIdAndUpdate(
+            req.params.id,
+            updatedData,
+            {new:true}
+        )
+
+        return res.status(200).json({message: updatedData})
+
     } catch (error) {
         console.log("Error + " + error)
         return res.status(500).json({message: "Error " + error})

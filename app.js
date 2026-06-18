@@ -8,6 +8,7 @@ import filesRoutes from "./src/routes/medicalFile.js"
 import equipmentRoutes from "./src/routes/equipment.js"
 import pacientRoutes from "./src/routes/pacitent.js"
 import loginRoutes from "./src/routes/login.js"
+import registerRoute from "./src/routes/register.js"
 
 const app = express()
 
@@ -27,5 +28,6 @@ app.use("/api/specialties", specialtyRoutes)
 app.use("/api/appointments", appointmentRoutes)
 app.use("/api/files", filesRoutes)
 app.use("/api/equipments", equipmentRoutes)
+app.use("/api/register", registerRoute)
 
 export default app
