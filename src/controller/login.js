@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs"
+import bcryptjs from "bcryptjs"
 import jsonwebtoken from "jsonwebtoken"
 import {config} from "../../config.js"
 import pacientModel from "../models/pacient.js"
@@ -18,9 +18,11 @@ controller.login = async (req, res) => {
             return res.status(404).json({message: "User has time out"})
         }
 
-        const isMatch = await bcrypt.compare(password, userFound.password)
+        console.log(userFound)
+        const isMatch = await bcryptjs.compare(password, userFound.passwordHash)
 
         if(!isMatch){
+            userFound.loginAttempts = (userFound.loginAttempts || 0) + 1
             //TODO: login attempts and timeout
             return res.status(401).json({message: "Credenciales incorrectas"})
         }
